@@ -23,59 +23,43 @@ public abstract class CommutativeMonoidElementFactory extends ElementFactory {
         "Additive Identity Test";
     private static String ADDITIVE_ASSOCIATIVITY_TEST_NAME =
         "Additive Associativity Test";
-
-    public CommutativeMonoidElementFactory() {
-        super();
-    }
-
-    public CommutativeMonoidElementFactory(boolean logVerboseOutput,
-                                           PrintStream log) {
-        super(logVerboseOutput, log);
-    }
     
     abstract CommutativeMonoidElement getRandom();
     abstract CommutativeMonoidElement getZero();
 
-    public boolean testAxioms(int totalTests) {
-        logHeading(totalTests);
-        ArrayList<TestResult> results = new ArrayList<TestResult>();
-        testMonoidalAxioms(results, totalTests);
-        return logSummary(results, totalTests);
+    void runAllAxiomTests() {
+        testMonoidalAxioms();
     }
 
-    void testMonoidalAxioms(ArrayList<TestResult> resultsSoFar,
-                            int totalTests) {
-        resultsSoFar.add(testZero());
-        resultsSoFar.add(runAllAdditiveCommutivityTests(totalTests));
-        resultsSoFar.add(runAllAdditiveIdentityTests(totalTests));
-        resultsSoFar.add(runAllAdditiveAssociativityTests(totalTests));
+    void testMonoidalAxioms() {
+        testZero();
+        runAllAdditiveCommutivityTests();
+        runAllAdditiveIdentityTests();
+        runAllAdditiveAssociativityTests();
     }
 
-    private TestResult testZero() {
-        logTestStart(ZERO_EQUALS_ZERO_TEST_NAME);
-        TestResult result =
-            new TestResult(ZERO_EQUALS_ZERO_TEST_NAME, getZero().isZero());
-        log(result);
-        return result;
+    private void testZero() {
+        logAxiomTestStart(ZERO_EQUALS_ZERO_TEST_NAME);
+        logAxiomTestResult(ZERO_EQUALS_ZERO_TEST_NAME, getZero().isZero());
     }
 
     private boolean testAdditiveCommutivityAxiom(CommutativeMonoidElement e1,
                                                  CommutativeMonoidElement e2,
                                                  int testCounter) {
-        logVerboseTestCounter(testCounter);
+        logElementTestStart(testCounter);
         CommutativeMonoidElement sum1 = e1.addTo(e2);
         CommutativeMonoidElement sum2 = e2.addTo(e1);
         logVerbose(sumString(e1, e2));
         logVerbose(sumString(e2, e1));
         boolean pass = sum1.equals(sum2);
-        logVerboseTestResult(pass,
+        logElementTestResult(pass,
                              PASS_ADDITIVE_COMMUTIVITY_STRING,
                              FAIL_ADDITIVE_COMMUTIVITY_STRING);
         return pass;
     }
 
-    private TestResult runAllAdditiveCommutivityTests(int totalTests) {
-        logTestStart(ADDITIVE_COMMUTIVITY_TEST_NAME);
+    private void runAllAdditiveCommutivityTests() {
+        logAxiomTestStart(ADDITIVE_COMMUTIVITY_TEST_NAME);
         int testCounter = 1;
         boolean passedSoFar = true;
         CommutativeMonoidElement e1 = getZero();
@@ -87,31 +71,27 @@ public abstract class CommutativeMonoidElementFactory extends ElementFactory {
                 testAdditiveCommutivityAxiom(e1, e2, testCounter);
             testCounter++;
         }
-        TestResult result =
-            new TestResult(ADDITIVE_COMMUTIVITY_TEST_NAME, passedSoFar);
-        if (!passedSoFar) {
-            Element[] list = {e1, e2};
-            result.setCounterExample(list);
-        }
-        log(result);
-        return result;
+        Element[] possibleCounterExample = {e1, e2};
+        logAxiomTestResult(ADDITIVE_COMMUTIVITY_TEST_NAME,
+                           passedSoFar,
+                           possibleCounterExample);
     }
 
     private boolean testAdditiveIdentityAxiom(CommutativeMonoidElement e,
                                               int testCounter) {
-        logVerboseTestCounter(testCounter);
+        logElementTestStart(testCounter);
         CommutativeMonoidElement zero = getZero();
         CommutativeMonoidElement sum = e.addTo(zero);
         logVerbose(sumString(e, zero));
         boolean pass = sum.equals(e);
-        logVerboseTestResult(pass,
+        logElementTestResult(pass,
                              PASS_ADDITIVE_IDENTITY_STRING,
                              FAIL_ADDITIVE_IDENTITY_STRING);
         return pass;
     }
 
-    private TestResult runAllAdditiveIdentityTests(int totalTests) {
-        logTestStart(ADDITIVE_IDENTITY_TEST_NAME);
+    private void runAllAdditiveIdentityTests() {
+        logAxiomTestStart(ADDITIVE_IDENTITY_TEST_NAME);
         int testCounter = 1;
         boolean passedSoFar = true;
         CommutativeMonoidElement e1 = getZero();
@@ -121,33 +101,30 @@ public abstract class CommutativeMonoidElementFactory extends ElementFactory {
                 testAdditiveIdentityAxiom(e1, testCounter);
             testCounter++;
         }
-        TestResult result =
-            new TestResult(ADDITIVE_IDENTITY_TEST_NAME, passedSoFar);
-        if (!passedSoFar) {
-            result.setCounterExample(e1.toString());
-        }
-        log(result);
-        return result;
+        Element[] possibleCounterExample = {e1};
+        logAxiomTestResult(ADDITIVE_IDENTITY_TEST_NAME,
+                           passedSoFar,
+                           possibleCounterExample);
     }
 
     private boolean testAdditiveAssociativityAxiom(CommutativeMonoidElement e1,
                                                    CommutativeMonoidElement e2,
                                                    CommutativeMonoidElement e3,
                                                    int testCounter) {
-        logVerboseTestCounter(testCounter);
+        logElementTestStart(testCounter);
         CommutativeMonoidElement leftSum = e1.addTo(e2).addTo(e3);
         CommutativeMonoidElement rightSum = e1.addTo(e2.addTo(e3));
         logVerbose(addLeftFirstString(e1, e2, e3));
         logVerbose(addRightFirstString(e1, e2, e3));
         boolean pass = leftSum.equals(rightSum);
-        logVerboseTestResult(pass,
+        logElementTestResult(pass,
                              PASS_ADDITIVE_ASSOCIATIVITY_STRING,
                              FAIL_ADDITIVE_ASSOCIATIVITY_STRING);
         return pass;
     }
 
-    private TestResult runAllAdditiveAssociativityTests(int totalTests) {
-        logTestStart(ADDITIVE_ASSOCIATIVITY_TEST_NAME);
+    private void runAllAdditiveAssociativityTests() {
+        logAxiomTestStart(ADDITIVE_ASSOCIATIVITY_TEST_NAME);
         int testCounter = 1;
         boolean passedSoFar = true;
         CommutativeMonoidElement e1 = getZero();
@@ -161,13 +138,9 @@ public abstract class CommutativeMonoidElementFactory extends ElementFactory {
                 testAdditiveAssociativityAxiom(e1, e2, e3, testCounter);
             testCounter++;
         }
-        TestResult result =
-            new TestResult(ADDITIVE_ASSOCIATIVITY_TEST_NAME, passedSoFar);
-        if (!passedSoFar) {
-            Element[] list = {e1, e2, e3};
-            result.setCounterExample(list);
-        }
-        log(result);
-        return result;
+        Element[] possibleCounterExample = {e1, e2, e3};
+        logAxiomTestResult(ADDITIVE_ASSOCIATIVITY_TEST_NAME,
+                           passedSoFar,
+                           possibleCounterExample);
     }
 }

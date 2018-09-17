@@ -6,14 +6,6 @@ public class ExampleZZMonoidElementFactory extends CommutativeMonoidElementFacto
     private Random r;
     
     public ExampleZZMonoidElementFactory(Random r) {
-        super();
-        this.r = r;
-    }
-
-    public ExampleZZMonoidElementFactory(boolean logVerboseOutput,
-                                         PrintStream log,
-                                         Random r) {
-        super(logVerboseOutput, log);
         this.r = r;
     }
 
@@ -29,6 +21,9 @@ public class ExampleZZMonoidElementFactory extends CommutativeMonoidElementFacto
         Random r = new Random();
         ExampleZZMonoidElementFactory factory =
             new ExampleZZMonoidElementFactory(r);
-        factory.testAxioms(50);
+        //factory.shouldIncludeVerboseOutput(true);
+        //factory.setLog(System.out);
+        //factory.setTotalNumberOfTests(5);
+        factory.testAxioms();
     }
 }
