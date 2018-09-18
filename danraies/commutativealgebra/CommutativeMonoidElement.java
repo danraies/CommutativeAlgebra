@@ -23,7 +23,7 @@ package danraies.commutativealgebra;
  *     <code>MElement</code> such that <code>zero.isZero()<code> evaluates to
  *     <code>true</code>.  If <code>m</code> is any other instance of
  *     <code>MElement</code> then <code>m.addTo(zero).equals(m)</code> returns
- *     to <code>true</code>.</dd>
+ *     <code>true</code>.</dd>
  * <dt>Associativity</dt>
  * <dd>If <code>m1</code>, <code>m2</code>, and <code>m3</code> are all instances
  *     of <code>MElement</code>, if 
@@ -36,8 +36,26 @@ package danraies.commutativealgebra;
  * it is the programmers job to ensure that they satisfy the axioms.  However, by
  * writing a <code>CommutativeMonoidFactory</code> one can run some tests.
  * </p>
+ *
+ * @author Dan Raies
  */
 public interface CommutativeMonoidElement extends Element {
+    /**
+     * Commutative monoids are required to have a zero element, i.e. an additive
+     * identity.  This method is used to recognize if a given instance is equal
+     * to zero.  Be careful about type checking when implementing this method.
+     *
+     * @return This method should return <code>true</code> if this element is
+     *         zero and <code>false</code> if not.
+     */
     public boolean isZero();
+
+    /**
+     * Commutative monoids are required to have an addition operation.  This
+     * method implements the operation.
+     *
+     * @param e Any other instance of <code>CommutativeMonoidElement</code>.
+     * @return The sum of <code>this</code> and <code>e</code>.
+     */
     public CommutativeMonoidElement addTo(CommutativeMonoidElement e);
 }

@@ -24,8 +24,8 @@ public abstract class CommutativeMonoidElementFactory extends ElementFactory {
     private static String ADDITIVE_ASSOCIATIVITY_TEST_NAME =
         "Additive Associativity Test";
     
-    abstract CommutativeMonoidElement getRandom();
-    abstract CommutativeMonoidElement getZero();
+    public abstract CommutativeMonoidElement getRandom();
+    public abstract CommutativeMonoidElement getZero();
 
     void runAllAxiomTests() {
         testMonoidalAxioms();
