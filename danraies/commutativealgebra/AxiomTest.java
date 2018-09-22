@@ -1,41 +1,35 @@
 package danraies.commutativealgebra;
 
-abstract class AxiomTest {
+abstract class AxiomTest extends UnitTest {
     private boolean elementsRequiredWasSet = false;
     private int elementsRequired;
-    private boolean testNameWasSet = false;
-    private String testName;
-    private boolean logWasSet = false;
-    private FactoryLogger log;
 
-    AxiomTest(int elementsRequired, String testName, FactoryLogger log) {
+    AxiomTest(int elementsRequired,
+              String testName,
+              int numberOfTests,
+              FactoryLogger log) {
+        super(testName, numberOfTests, log);
         setNumberOfElementsRequired(elementsRequired);
-        setTestName(testName);
-        setLog(log);
     }
 
     void setNumberOfElementsRequired(int elementsRequired) {
         this.elementsRequired = elementsRequired;
         elementsRequiredWasSet = true;
     }
-
-    void setTestName(String testName) {
-        this.testName = testName;
-        testNameWasSet = true;
-    }
-
-    void setLog(FactoryLogger log) {
-        this.log = log;
-        logWasSet = true;
-    }
     
     abstract boolean testElements(Element[] list);
 
-    TestResult runTests(int numberOfTests, ElementFactory factory) {
-        if ((!elementsRequiredWasSet) || (!testNameWasSet) || (!logWasSet)) {
+    private boolean safelyTestElements(Element[] list) {
+        if (list.length != elementsRequired) {
+            throw new RuntimeException(WRONG_NUMBER_OF_ELEMENTS);
+        }
+        return testElements(list);
+    }
+
+    TestResult runTest(ElementFactory factory) {
+        if (!elementsRequiredWasSet) {
             throw new RuntimeException(VARIABLES_NOT_SET_MESSAGE);
         }
-        log.announceAxiomCheck(testName);
         int testCounter = 1;
         boolean passedSoFar = true;
         Element[] listOfElements = new Element[elementsRequired];
@@ -43,15 +37,19 @@ abstract class AxiomTest {
             for (int i = 0; i < listOfElements.length; i++) {
                 listOfElements[i] = factory.getRandom();
             }
-            boolean passedThisCheck = testElements(listOfElements);
+            boolean passedThisCheck = safelyTestElements(listOfElements);
             log.logIndividualCheck(testCounter, listOfElements, passedThisCheck);
             passedSoFar = passedSoFar && passedThisCheck;
             testCounter++;
         }
-        return new TestResult(testName, passedSoFar, listOfElements);
+        TestResult result = new TestResult(testName, passedSoFar, listOfElements);
+        return result;
     }
 
     private static String VARIABLES_NOT_SET_MESSAGE =
         "Either the log, the name of the test, or the number of elements required" +
         "was not set.";
+
+    private static String WRONG_NUMBER_OF_ELEMENTS =
+        "The wrong number of elements was used for this axiom.";
 }

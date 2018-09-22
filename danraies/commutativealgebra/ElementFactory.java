@@ -41,11 +41,14 @@ public abstract class ElementFactory {
 
     /** This instance keeps track of the <code>FactoryLogger</code> object to which
         all logs are written. */
-    private FactoryLogger log = new FactoryLogger();
+    FactoryLogger log = new FactoryLogger();
 
     /** This is the total number of element-wise tests that will be run when
         testing each individual axiom. */
-    private int totalTests = 100;
+    int totalTests = 100;
+
+    /** This list holds all of the tests that are going to be run. */
+    private ArrayList<UnitTest> testsToRun = new ArrayList<UnitTest>();
     
     //////////////////////////////////////////////////
     // Abstract Methods
@@ -60,12 +63,7 @@ public abstract class ElementFactory {
      */
     public abstract Element getRandom();
 
-    /**
-     * This method is implemented by abstract children of this class and is not
-     * intended to be overridden by users of the package.  This is the method
-     * that tells the factory class which axioms to test.
-     */
-    abstract void runAllAxiomTests();
+    abstract void addAllTests();
 
     //////////////////////////////////////////////////
     // Public Methods
@@ -87,8 +85,19 @@ public abstract class ElementFactory {
      */
     public void testAxioms() {
         log.announceStart();
-        runAllAxiomTests();
+        for (int i = 0; i < testsToRun.size(); i++) {
+            testsToRun.get(i).run(this);
+        }
         log.logEnd();
+    }
+
+    /**
+     * This method is used by abstract subclasses to add tests that should be run.
+     *
+     * @param aTest Some test that should be added to the list.
+     */
+    public void addTestToRun(UnitTest aTest) {
+        testsToRun.add(aTest);
     }
 
     /**
