@@ -1,6 +1,6 @@
 import danraies.commutativealgebra.*;
 
-public class ExNNElement {
+final public class ExNNElement implements CommutativeMonoidElement {
     private long value;
 
     public ExNNElement(long value) {
@@ -29,12 +29,7 @@ public class ExNNElement {
     }
 
     public ExNNElement addTo(CommutativeMonoidElement e) {
-        ExNNElement n;
-        try {
-            n = (ExNNElement) e;
-        } catch (Exception ex) {
-            throw new RuntimeException("These elements cannot be added", ex);
-        }
+        ExNNElement n = (ExNNElement) e;
         return new ExNNElement(this.value + n.value);
     }
 }

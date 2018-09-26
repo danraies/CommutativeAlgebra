@@ -5,14 +5,15 @@ abstract class AxiomTest extends UnitTest {
     private int elementsRequired;
 
     AxiomTest(int elementsRequired,
+              int intendedNumberOfChecks,
               String testName,
-              int numberOfTests,
               FactoryLogger log) {
-        super(testName, numberOfTests, log);
+        super(testName, log);
         setNumberOfElementsRequired(elementsRequired);
+        setIntendedNumberOfChecks(intendedNumberOfChecks);
     }
 
-    void setNumberOfElementsRequired(int elementsRequired) {
+    final void setNumberOfElementsRequired(int elementsRequired) {
         this.elementsRequired = elementsRequired;
         elementsRequiredWasSet = true;
     }
@@ -26,29 +27,29 @@ abstract class AxiomTest extends UnitTest {
         return testElements(list);
     }
 
-    TestResult runTest(ElementFactory factory) {
+    final boolean runTest(ElementFactory factory) {
         if (!elementsRequiredWasSet) {
             throw new RuntimeException(VARIABLES_NOT_SET_MESSAGE);
         }
-        int testCounter = 1;
+        int testCounter = 0;
         boolean passedSoFar = true;
         Element[] listOfElements = new Element[elementsRequired];
-        while ((passedSoFar) && (testCounter <= numberOfTests)) {
+        while ((passedSoFar) && (testCounter <= getIntendedNumberOfChecks())) {
+            testCounter++;
             for (int i = 0; i < listOfElements.length; i++) {
                 listOfElements[i] = factory.getRandom();
             }
             boolean passedThisCheck = safelyTestElements(listOfElements);
             log.logIndividualCheck(testCounter, listOfElements, passedThisCheck);
             passedSoFar = passedSoFar && passedThisCheck;
-            testCounter++;
         }
-        TestResult result = new TestResult(testName, passedSoFar, listOfElements);
-        return result;
+        setIntendedNumberOfChecks(testCounter);
+        return passedSoFar;
     }
 
     private static String VARIABLES_NOT_SET_MESSAGE =
         "Either the log, the name of the test, or the number of elements required" +
-        "was not set.";
+        " was not set.";
 
     private static String WRONG_NUMBER_OF_ELEMENTS =
         "The wrong number of elements was used for this axiom.";

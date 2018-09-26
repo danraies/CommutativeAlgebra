@@ -1,5 +1,0 @@
-package danraies.commutativealgebra;
-
-abstract class UnitTest {
-    abstract TestResult runTest();
-}

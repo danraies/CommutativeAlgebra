@@ -1,14 +1,26 @@
 import danraies.commutativealgebra.*;
 import java.util.Random;
 
-public class ExNNElementFactory extends CommutativeMonoidElementFactory {
-    
+final public class ExNNElementFactory extends CommutativeMonoidElementFactory {
+    Random r = new Random();
     
     public ExNNElement getRandom() {
-        
+        long value = r.nextInt();
+        if (value < 0) {
+            value = (-1L) * value;
+        }
+        return new ExNNElement(value);
+    }
+
+    public ExNNElement getZero() {
+        return new ExNNElement(0L);
     }
 
     public static void main(String[] args) {
-        
+        ExNNElementFactory f = new ExNNElementFactory();
+        f.shouldIncludeVerboseOutput(true);
+        f.setLog(System.out);
+        f.setTotalNumberOfTests(10);
+        f.testAxioms();
     }
 }

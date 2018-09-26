@@ -1,21 +1,19 @@
 package danraies.commutativealgebra;
 
-class ZeroEqualsZeroTest extends UnitTest {
+final class ZeroEqualsZeroTest extends UnitTest {
     CommutativeMonoidElement possibleZero;
     
     ZeroEqualsZeroTest(CommutativeMonoidElement possibleZero,
-                       int numberOfTests,
                        FactoryLogger log) {
-        super(TEST_NAME, numberOfTests, log);
+        super(TEST_NAME, log);
         this.possibleZero = possibleZero;
     }
     
-    TestResult runTest(ElementFactory factory) {
+    boolean runTest(ElementFactory factory) {
         // factory is not needed for this one.
         Element[] possibleCounterExample = {possibleZero};
-        return new TestResult(TEST_NAME,
-                              possibleZero.isZero(),
-                              possibleCounterExample);
+        setPossibleCounterExample(possibleCounterExample);
+        return possibleZero.isZero();
     }
 
     private static String TEST_NAME = "Zero Equals Zero";

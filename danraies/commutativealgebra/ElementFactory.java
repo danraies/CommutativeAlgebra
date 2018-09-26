@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * <dl>
  * <dt>{@link #getRandom() getRandom}</dt>
  * <dd>When one implements an <code>XElementFactory</code>, it is this method that
- *     determines everything in the tests.  It should return a randomly generated
+n *     determines everything in the tests.  It should return a randomly generated
  *     <code>XElement</code>.  The methods used during the tests will use this
  *     method repeatedly to generate the elements that are tested.</dd>
  * <dt>{@link #testAxioms() testAxioms}</dt>
@@ -83,12 +83,18 @@ public abstract class ElementFactory {
      * satisfy the axioms (that burden is on the coder) but a sufficiently large
      * number of tests can increase confidence.
      */
-    public void testAxioms() {
+    final public void testAxioms() {
+        addAllTests();
         log.announceStart();
         for (int i = 0; i < testsToRun.size(); i++) {
             testsToRun.get(i).run(this);
         }
-        log.logEnd();
+        
+        log.announceEnd();
+        for (int i = 0; i < testsToRun.size(); i++) {
+            testsToRun.get(i).logResultSummary();
+        }
+        log.close();
     }
 
     /**
@@ -96,7 +102,7 @@ public abstract class ElementFactory {
      *
      * @param aTest Some test that should be added to the list.
      */
-    public void addTestToRun(UnitTest aTest) {
+    final void addTestToRun(UnitTest aTest) {
         testsToRun.add(aTest);
     }
 
@@ -116,7 +122,7 @@ public abstract class ElementFactory {
      *        to log the details and a value of <code>false</code> to surpress them.
      *        By default this value is <code>true</code>.
      */
-    public void shouldIncludeVerboseOutput(boolean logVerboseOutput) {
+    final public void shouldIncludeVerboseOutput(boolean logVerboseOutput) {
         log.shouldShowVerboseOutput(logVerboseOutput);
     }
 
@@ -129,7 +135,7 @@ public abstract class ElementFactory {
      *        <code>testAxioms</code> method are written.  By default this is
      *        <code>System.out</code>.
      */
-    public void setLog(PrintStream stream) {
+    final public void setLog(PrintStream stream) {
         log.setPrintStream(stream);
     }
 
@@ -140,7 +146,7 @@ public abstract class ElementFactory {
      * @param totalTests The number of tests that the <code>testAxioms</code> method
      *        runs when checking each of the axioms that it is designed to check.
      */
-    public void setTotalNumberOfTests(int totalTests) {
+    final public void setTotalNumberOfTests(int totalTests) {
         this.totalTests = totalTests;
     }
 }
