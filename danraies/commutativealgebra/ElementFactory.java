@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * <dl>
  * <dt>{@link #getRandom() getRandom}</dt>
  * <dd>When one implements an <code>XElementFactory</code>, it is this method that
-n *     determines everything in the tests.  It should return a randomly generated
+ *     determines everything in the tests.  It should return a randomly generated
  *     <code>XElement</code>.  The methods used during the tests will use this
  *     method repeatedly to generate the elements that are tested.</dd>
  * <dt>{@link #testAxioms() testAxioms}</dt>
