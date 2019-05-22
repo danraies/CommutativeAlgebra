@@ -1,0 +1,28 @@
+import danraies.commutativealgebra.*;
+import java.util.Random;
+
+final public class ExQQElementFactory extends FieldElementFactory {
+    Random r = new Random();
+
+    public ExQQElement getRandom() {
+        long numerator = r.nextInt();
+        long denominator = r.nextInt();
+        return new ExQQElement(numerator, denominator);
+    }
+
+    public ExQQElement getZero() {
+        return new ExQQElement(0L, 1L);
+    }
+
+    public ExQQElement getONe() {
+        return new ExQQElement(1L, 1L);
+    }
+
+    public static void main(String[] args) {
+        ExZZElementFactory f = new ExQQElementFactory();
+        f.shouldIncludeVerboseOutput(true);
+        f.setLog(System.out);
+        f.setTotalNumberOfTests(10);
+        f.testAxioms();
+    }
+}

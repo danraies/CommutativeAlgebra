@@ -1,0 +1,18 @@
+package danraies.commutativealgebra;
+import java.util.ArrayList;
+import java.io.PrintStream;
+
+public abstract class CommutativeRingElementFactory extends AbelianGroupFactory {
+    public abstract CommutativeRingElement getRandom();
+    public abstract CommutativeRingElement getOne();
+
+    void addAllTests() {
+        addCommutativeMonoidTestsToRun();
+        addAbelianGroupTestsToRun();
+
+        final void addCommutativeRingTestsToRun() {
+            addTestToRun(new OneEqualsOneTest(getOne(), log));
+            addTestToRun(new AxiomTestMultiplicativeCommutivity(totalTests, log));
+        }
+    }
+}

@@ -1,0 +1,14 @@
+import danraies.commutativealgebra.*;
+
+final public class ExQQElement implements FieldElement {
+    private final long numerator;
+    private final long denominator;
+    
+    private static final String zeroDenominatorMessage
+        = "Denominator was set to be zero.";
+    private static final String longOverflowMessage
+        = "This computation resulted in an integer that is not a long.";
+    private static final String illegalLcmMessage
+        = "The LCM of a number with 0 is considered undefined.";
+    public static final String SLASH_CHAR = "/";
+}

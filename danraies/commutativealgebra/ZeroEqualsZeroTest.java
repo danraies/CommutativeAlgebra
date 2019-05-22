@@ -9,8 +9,8 @@ final class ZeroEqualsZeroTest extends UnitTest {
         this.possibleZero = possibleZero;
     }
     
-    boolean runTest(ElementFactory factory) {
-        // factory is not needed for this one.
+    boolean runTest(ElementRandomizer r) {
+        // r is not needed for this one.
         Element[] possibleCounterExample = {possibleZero};
         setPossibleCounterExample(possibleCounterExample);
         return possibleZero.isZero();

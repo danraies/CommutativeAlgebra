@@ -15,14 +15,14 @@ abstract class UnitTest {
         setLog(log);
     }
     
-    abstract boolean runTest(ElementFactory factory);
+    abstract boolean runTest(ElementRandomizer r);
 
-    final void run(ElementFactory factory) {
+    final void run(ElementRandomizer r) {
         if (!logWasSet) {
             throw new RuntimeException(LOG_NOT_SET_MESSAGE);
         }
         log.announceAxiomCheck(testName, intendedNumberOfChecks);
-        testResult = runTest(factory);
+        testResult = runTest(r);
         testWasRun = true;
         logResult();
     }

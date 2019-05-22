@@ -1,0 +1,5 @@
+package danraies.commutativealgebra;
+
+interface ElementRandomizer {
+    abstract Element getRandomElement();
+}

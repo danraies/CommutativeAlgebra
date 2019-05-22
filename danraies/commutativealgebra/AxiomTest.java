@@ -27,23 +27,23 @@ abstract class AxiomTest extends UnitTest {
         return testElements(list);
     }
 
-    final boolean runTest(ElementFactory factory) {
+    final boolean runTest(ElementRandomizer r) {
         if (!elementsRequiredWasSet) {
             throw new RuntimeException(VARIABLES_NOT_SET_MESSAGE);
         }
         int testCounter = 0;
         boolean passedSoFar = true;
         Element[] listOfElements = new Element[elementsRequired];
-        while ((passedSoFar) && (testCounter <= getIntendedNumberOfChecks())) {
+        while ((passedSoFar) && (testCounter < getIntendedNumberOfChecks())) {
             testCounter++;
             for (int i = 0; i < listOfElements.length; i++) {
-                listOfElements[i] = factory.getRandom();
+                listOfElements[i] = r.getRandomElement();
             }
             boolean passedThisCheck = safelyTestElements(listOfElements);
             log.logIndividualCheck(testCounter, listOfElements, passedThisCheck);
             passedSoFar = passedSoFar && passedThisCheck;
         }
-        setIntendedNumberOfChecks(testCounter);
+        setActualNumberOfChecks(testCounter);
         return passedSoFar;
     }
 

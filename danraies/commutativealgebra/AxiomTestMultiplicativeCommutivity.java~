@@ -1,0 +1,15 @@
+package danraies.commutativealgebra;
+
+final class AxiomTestMultiplicativeCommutivity extends AxiomTest {
+    private static String TEST_NAME = "Multiplicative Commutivity";
+
+    AxiomTestMultiplicativeCommutivity(int numberOfTests, FactoryLogger log) {
+        super(2, numberOfTests, TEST_NAME, log);
+    }
+
+    boolean testElement(Element[] list) {
+        CommutativeRingElement e1 = (CommutativeRingElement) list[0];
+        CommutativeRingElement e2 = (CommutativeRingElement) list[1];
+        AbelianGroupElement product1 = 
+    }
+}

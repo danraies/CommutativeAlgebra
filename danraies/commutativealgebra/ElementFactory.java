@@ -86,8 +86,14 @@ public abstract class ElementFactory {
     final public void testAxioms() {
         addAllTests();
         log.announceStart();
+        ElementRandomizer r = new ElementRandomizer() {
+                @Override
+                public Element getRandomElement() {
+                    return getRandom();
+                }
+            };
         for (int i = 0; i < testsToRun.size(); i++) {
-            testsToRun.get(i).run(this);
+            testsToRun.get(i).run(r);
         }
         
         log.announceEnd();
@@ -148,5 +154,12 @@ public abstract class ElementFactory {
      */
     final public void setTotalNumberOfTests(int totalTests) {
         this.totalTests = totalTests;
+    }
+
+    final public void exampleTest() {
+        shouldIncludeVerboseOutput(true);
+        setLog(System.out);
+        setTotalNumberOfTests(10);
+        testAxioms();
     }
 }

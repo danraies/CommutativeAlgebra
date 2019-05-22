@@ -18,9 +18,6 @@ final public class ExNNElementFactory extends CommutativeMonoidElementFactory {
 
     public static void main(String[] args) {
         ExNNElementFactory f = new ExNNElementFactory();
-        f.shouldIncludeVerboseOutput(true);
-        f.setLog(System.out);
-        f.setTotalNumberOfTests(10);
-        f.testAxioms();
+        f.exampleTest();
     }
 }
